@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will you be my Valentine?</title>
+
+<style>
+body {
+    margin:0;
+    padding:0;
+    background:white;
+    font-family:Arial, sans-serif;
+    text-align:center;
+    overflow:hidden;
+}
+
+h1{
+    margin-top:25px;
+    font-size:clamp(28px,6vw,44px);
+}
+
+/* dekoracyjne serca tło */
+.bg-heart{
+    position:absolute;
+    color:#ff9ecb;
+    opacity:0.25;
+    font-size:clamp(40px,8vw,90px);
+    pointer-events:none;
+}
+
+svg{
+    width:min(260px,75vw);
+    margin-top:10px;
+    filter: drop-shadow(0 10px 15px rgba(255,105,180,0.25));
+}
+
+.buttons{
+    margin-top:25px;
+    position:relative;
+    height:150px;
+}
+
+button{
+    font-size:clamp(18px,5vw,22px);
+    padding:14px 34px;
+    border-radius:16px;
+    border:none;
+    cursor:pointer;
+    position:absolute;
+}
+
+.yes{
+    background:#ffb6d9;
+    left:50%;
+    transform:translateX(-120%);
+}
+
+.no{
+    background:#e0e0e0;
+    left:50%;
+    transform:translateX(20%);
+    transition:top .2s,left .2s;
+}
+
+#result{
+    margin-top:25px;
+    font-size:clamp(24px,6vw,34px);
+}
+
+/* lecące serduszka */
+.heart{
+    position:absolute;
+    font-size:22px;
+    animation:floatUp linear infinite;
+    opacity:.7;
+    pointer-events:none;
+}
+
+@keyframes floatUp{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);opacity:0;}
+}
+
+/* confetti */
+.confetti{
+    position:absolute;
+    font-size:24px;
+    animation:fall 3s linear forwards;
+}
+
+@keyframes fall{
+    from{transform:translateY(-10vh);}
+    to{transform:translateY(110vh);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- tło serduszek -->
+<div class="bg-heart" style="top:5%;left:5%;">💗</div>
+<div class="bg-heart" style="top:10%;right:8%;">💖</div>
+<div class="bg-heart" style="bottom:12%;left:10%;">💘</div>
+<div class="bg-heart" style="bottom:8%;right:12%;">💕</div>
+
+<h1>Will you be my Valentine?</h1>
+
+<!-- ładniejszy lemur -->
+<svg viewBox="0 0 300 260">
+    <ellipse cx="150" cy="150" rx="90" ry="70" fill="#bdbdbd"/>
+    <circle cx="95" cy="95" r="35" fill="#d6d6d6"/>
+    <circle cx="205" cy="95" r="35" fill="#d6d6d6"/>
+    <ellipse cx="150" cy="130" rx="65" ry="55" fill="#eeeeee"/>
+    <circle cx="125" cy="125" r="8"/>
+    <circle cx="175" cy="125" r="8"/>
+    <ellipse cx="150" cy="150" rx="6" ry="4"/>
+    <text x="120" y="200" font-size="60">💖</text>
+</svg>
+
+<div class="buttons">
+<button class="yes" onclick="yesClick()">TAK</button>
+<button class="no" id="noBtn">NIE</button>
+</div>
+
+<div id="result"></div>
+
+<script>
+const noBtn=document.getElementById("noBtn");
+
+function moveNoButton(){
+ const maxX=window.innerWidth-noBtn.offsetWidth-20;
+ const maxY=window.innerHeight-noBtn.offsetHeight-20;
+ noBtn.style.left=Math.random()*maxX+"px";
+ noBtn.style.top=Math.random()*maxY+"px";
+}
+noBtn.addEventListener("mouseenter",moveNoButton);
+noBtn.addEventListener("touchstart",moveNoButton);
+
+function yesClick(){
+ document.getElementById("result").innerHTML="💗 Kocham Cię bardzo 💗";
+ launchConfetti();
+}
+
+function launchConfetti(){
+ for(let i=0;i<50;i++){
+   const c=document.createElement("div");
+   c.className="confetti";
+   c.innerHTML=Math.random()>0.5?"💖":"🎉";
+   c.style.left=Math.random()*100+"vw";
+   c.style.animationDuration=(Math.random()*2+2)+"s";
+   document.body.appendChild(c);
+   setTimeout(()=>c.remove(),3000);
+ }
+}
+
+setInterval(()=>{
+ const h=document.createElement("div");
+ h.className="heart";
+ h.innerHTML="💗";
+ h.style.left=Math.random()*100+"vw";
+ h.style.animationDuration=(Math.random()*3+4)+"s";
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),7000);
+},350);
+</script>
+
+</body>
+</html>
